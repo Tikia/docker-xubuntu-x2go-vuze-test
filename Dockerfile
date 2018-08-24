@@ -23,12 +23,13 @@ RUN sed -i "s/#PasswordAuthentication/PasswordAuthentication/g" /etc/ssh/sshd_co
 RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
 #Install Vuze
-RUN echo "deb http://archive.getdeb.net/ubuntu xenial-getdeb apps" | tee /etc/apt/sources.list.d/getdeb.list &&  wget -q http://archive.getdeb.net/getdeb-archive.key -O- | apt-key add -
+#RUN echo "deb http://archive.getdeb.net/ubuntu xenial-getdeb apps" | tee /etc/apt/sources.list.d/getdeb.list &&  wget -q http://archive.getdeb.net/getdeb-archive.key -O- | apt-key add -
+RUN sh -c 'echo "deb http://archive.getdeb.net/ubuntu xenial-getdeb apps" >> /etc/apt/sources.list.d/getdeb.list'
+RUN wget -q -O- http://archive.getdeb.net/getdeb-archive.key | apt-key add -
 RUN apt-get update
 RUN apt-get install -y vuze
 
 #Add password script
-ADD https://raw.githubusercontent.com/Tikia/docker-xubuntu-x2go-vuze/master/root_pw_set.sh /
 ADD https://raw.githubusercontent.com/Tikia/docker-xubuntu-x2go-vuze/master/run.sh /
 RUN chmod +x /*.sh
 
